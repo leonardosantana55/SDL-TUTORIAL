@@ -1,5 +1,72 @@
 #include "main.h"
 
+void doInput(App *app){
+    SDL_Event event;
+    while(SDL_PollEvent(&event)){
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            exit(0);
+            break;
+        case SDL_KEYDOWN:
+            doKeyDown(&event.key, app);     
+            break;
+        case SDL_KEYUP:
+            doKeyUp(&event.key, app);        
+        default:
+            break;
+        }
+    }
+}
+
+void doKeyDown(SDL_KeyboardEvent *key, App *app){
+    switch (key->keysym.scancode){
+        case SDL_SCANCODE_DOWN:
+            app->down = 1;
+            break;
+        case SDL_SCANCODE_UP:
+            app->up = 1;
+            break;
+        case SDL_SCANCODE_LEFT:
+            app->left = 1;
+            break;
+        case SDL_SCANCODE_RIGHT:
+            app->rigth = 1;
+            break;
+    }
+}
+
+void doKeyUp(SDL_KeyboardEvent *key, App *app){
+    switch (key->keysym.scancode){
+        case SDL_SCANCODE_DOWN:
+            app->down = 0;
+            break;
+        case SDL_SCANCODE_UP:
+            app->up = 0;
+            break;
+        case SDL_SCANCODE_LEFT:
+            app->left = 0;
+            break;
+        case SDL_SCANCODE_RIGHT:
+            app->rigth = 0;
+            break;
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+/* OLD WAY */
+
+/* #include "main.h"
+
 Uint32 last_keydown_time_stamp;
 
 void directionalMovement(SDL_Rect *r, SDL_Event event, Uint32 *last_keydown_time_stamp){
@@ -17,6 +84,8 @@ void directionalMovement(SDL_Rect *r, SDL_Event event, Uint32 *last_keydown_time
                         r->y += MOV_SPEED;
                     }
                     printf("down\n");
+                    printf("last keydown timestamp: %d\n",event.key.timestamp - *last_keydown_time_stamp);
+                    *last_keydown_time_stamp = event.key.timestamp;
                     break;
 
                 case SDL_SCANCODE_UP:
@@ -55,7 +124,6 @@ void directionalMovement(SDL_Rect *r, SDL_Event event, Uint32 *last_keydown_time
         default:
             break;
         }
-        *last_keydown_time_stamp = event.key.timestamp;
 }
 
 // TODO: CREATE A TIMER AND A LAST EVENT TRACKER, TO FIRE A SPECIAL MOVE WHEN A BUTTON IS PRESSED FAST ENOUGHT
@@ -64,8 +132,7 @@ void doInput(SDL_Rect *r){
     SDL_Event event;
 
     while (SDL_PollEvent(&event)){
-        
         directionalMovement(r, event, &last_keydown_time_stamp);
-        printf("last keydown timestamp: %d", last_keydown_time_stamp); // Add another parameter to change when the if statement is implemented
+        //printf("last keydown timestamp: %d\n", event.key.timestamp - last_keydown_time_stamp); // Add another parameter to change when the if statement is implemented
     }
-}
+} */

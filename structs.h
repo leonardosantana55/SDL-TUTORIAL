@@ -6,6 +6,17 @@
 typedef struct App{
     SDL_Renderer *renderer;
     SDL_Window *window;
-} App;
+    int up;
+    int down;
+    int left;
+    int rigth;
+}App;
+
+typedef struct Bullet{
+    SDL_Rect form;
+    int dx;
+    int dy;
+    int distance;
+}Bullet;
 
 #endif
