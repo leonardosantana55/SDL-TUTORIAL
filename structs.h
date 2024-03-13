@@ -10,6 +10,7 @@ typedef struct App{
     int down;
     int left;
     int rigth;
+    int fire;
 }App;
 
 typedef struct Bullet{

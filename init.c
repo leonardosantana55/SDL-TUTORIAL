@@ -1,6 +1,8 @@
 #include "main.h"
 
-void initSDL(App *app){
+extern App app;
+
+void initSDL(){
     int rendererFlags, windowFlags;
 
     rendererFlags = SDL_RENDERER_ACCELERATED; // hardware aceleration
@@ -14,7 +16,7 @@ void initSDL(App *app){
         exit(1);
     }
 
-    app->window = SDL_CreateWindow(
+    app.window = SDL_CreateWindow(
         "tetris", 
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
@@ -23,7 +25,7 @@ void initSDL(App *app){
         windowFlags);
 
 
-    if (!app->window){
+    if (!app.window){
 		printf("Failed to open %d x %d window: %s\n", 
         SCREEN_WIDTH, 
         SCREEN_HEIGHT, 
@@ -34,9 +36,9 @@ void initSDL(App *app){
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
-    app->renderer = SDL_CreateRenderer(app->window, -1, rendererFlags);
+    app.renderer = SDL_CreateRenderer(app.window, -1, rendererFlags);
 
-	if (!app->renderer){
+	if (!app.renderer){
 		printf("Failed to create renderer: %s\n", 
         SDL_GetError());
 		

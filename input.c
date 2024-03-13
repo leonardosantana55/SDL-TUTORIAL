@@ -1,6 +1,8 @@
 #include "main.h"
 
-void doInput(App *app){
+extern App app;
+
+void doInput(){
     SDL_Event event;
     while(SDL_PollEvent(&event)){
         switch (event.type)
@@ -9,49 +11,56 @@ void doInput(App *app){
             exit(0);
             break;
         case SDL_KEYDOWN:
-            doKeyDown(&event.key, app);     
+            doKeyDown(&event.key);     
             break;
         case SDL_KEYUP:
-            doKeyUp(&event.key, app);        
+            doKeyUp(&event.key);        
         default:
             break;
         }
     }
 }
 
-void doKeyDown(SDL_KeyboardEvent *key, App *app){
-    switch (key->keysym.scancode){
-        case SDL_SCANCODE_DOWN:
-            app->down = 1;
-            break;
-        case SDL_SCANCODE_UP:
-            app->up = 1;
-            break;
-        case SDL_SCANCODE_LEFT:
-            app->left = 1;
-            break;
-        case SDL_SCANCODE_RIGHT:
-            app->rigth = 1;
-            break;
+void doKeyDown(SDL_KeyboardEvent *key){
+
+    if (key->repeat == 0){
+        switch (key->keysym.scancode){
+            case SDL_SCANCODE_DOWN:
+                app.down = 1;
+                break;
+            case SDL_SCANCODE_UP:
+                app.up = 1;
+                break;
+            case SDL_SCANCODE_LEFT:
+                app.left = 1;
+                break;
+            case SDL_SCANCODE_RIGHT:
+                app.rigth = 1;
+                break;
+            case SDL_SCANCODE_0:
+                app.fire = 1;
+                break;
+        }
     }
 }
 
-void doKeyUp(SDL_KeyboardEvent *key, App *app){
-    switch (key->keysym.scancode){
-        case SDL_SCANCODE_DOWN:
-            app->down = 0;
-            break;
-        case SDL_SCANCODE_UP:
-            app->up = 0;
-            break;
-        case SDL_SCANCODE_LEFT:
-            app->left = 0;
-            break;
-        case SDL_SCANCODE_RIGHT:
-            app->rigth = 0;
-            break;
+void doKeyUp(SDL_KeyboardEvent *key){
+    if (key->repeat == 0){
+        switch (key->keysym.scancode){
+            case SDL_SCANCODE_DOWN:
+                app.down = 0;
+                break;
+            case SDL_SCANCODE_UP:
+                app.up = 0;
+                break;
+            case SDL_SCANCODE_LEFT:
+                app.left = 0;
+                break;
+            case SDL_SCANCODE_RIGHT:
+                app.rigth = 0;
+                break;
+        }
     }
-    
 }
 
 
