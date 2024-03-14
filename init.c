@@ -18,8 +18,8 @@ void initSDL(){
 
     app.window = SDL_CreateWindow(
         "tetris", 
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
+        100,
+        100, 
         SCREEN_WIDTH,
         SCREEN_HEIGHT,
         windowFlags);

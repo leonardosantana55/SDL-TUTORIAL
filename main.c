@@ -1,23 +1,38 @@
-// compile: 'gcc main.c input.c init.c draw.c -o prog -lSDL2'
-
+/* 
+gcc main.c input.c init.c draw.c structs.c -o prog -lSDL2
+ */
 #include "main.h"
 
 void animateBullet(Bullet *bullet);
+
+
+//função createbullet
+//a bala criada vai precisar ser desenhada. A função que desenha as balas tem que iterar pelo endereço que aponta pra elas e renderizar cada uma
+//se a bala percorrer toda a distancia, ela fica com health 0
+//se a bala está com health zero ela deve ser destruida
+Bullet defineBullet(SDL_Rect *r1);
+Bullet* createBullets(Bullet *bullet, SDL_Rect *r1);
+LinkedList* createLinkedBullets(Bullet *bullet, SDL_Rect *r1);
+void destroyBullets(Bullet *bullet);
+
     
 App app;
 int WinMain(int argc, char *argv[]){
-    SDL_Rect r1; r1.h = 50; r1.w = 50; r1.x = 50; r1.y = 50;
-    Bullet bullet; bullet.form.h = 10; bullet.form.w = 30; bullet.form.x = r1.x; bullet.form.y = r1.y; bullet.dx = 2; bullet.dy = 0; bullet.distance = 150;
-    
     initSDL(); // create window
-
+    
+    SDL_Rect r1; r1.h = 50; r1.w = 50; r1.x = 50; r1.y = 50;
+    //Bullet *bullet;
+    Bullet linkedbullet = defineBullet(&r1);
+    LinkedList *linkedlist_bullets = createLinkedList(linkedbullet);
+    //memset(bullet, 0, sizeof(Bullet));
+    //printf("init %d\n",bullet->size);
+    
     while (1){
         prepareScene();
         doInput();
         drawRectangle(&r1);
-        drawBullet(&bullet.form);
-        
-        printf("%d ,%d ,%d ,%d", app.down, app.up, app.left, app.rigth);
+        //printf("size before %u\n", bullet->size);
+        //printf("%d ,%d ,%d ,%d", app.down, app.up, app.left, app.rigth);
         if (app.down){
             r1.y += 1;
         }
@@ -31,9 +46,12 @@ int WinMain(int argc, char *argv[]){
             r1.x -= 1;
         }
         if (app.fire){
-            drawBullet(&bullet.form);
-            animateBullet(&bullet);
-
+            app.fire = 0;
+            linkedbullet = defineBullet(&r1);
+            insert_ll(linkedlist_bullets, linkedbullet);
+            print_ll(linkedlist_bullets);
+            //bullet = createBullets(bullet, &r1);
+            //printf("after %d\n",bullet->size);
         }
         
         //animateBullet(&bullet);
@@ -45,6 +63,9 @@ return 0;
 
 }
 
+
+
+/* 
 void animateBullet(Bullet *bullet){
     if (bullet->distance > 0){
         bullet->form.x += bullet->dx;
@@ -52,3 +73,53 @@ void animateBullet(Bullet *bullet){
         bullet->distance--;
     }
 }
+ */
+
+
+// PROVAVELMENTE VOU TER QUE IMPLEMENTAR ESSA PORA COMO LISTA LINKADA, MAS VAI COM REALLOC POR ENQUANTO HIHI
+Bullet* createBullets(Bullet *bullet, SDL_Rect *r1){
+        if (bullet->size == 0){
+            bullet = (Bullet*)malloc(1 * sizeof(Bullet));
+            bullet->size = _msize(bullet);
+
+            bullet->form.h = 10;
+            bullet->form.w = 30;
+            bullet->form.x = r1->x;
+            bullet->form.y = r1->y;
+
+            bullet->distance = 100;
+            bullet->dx = 1;
+            bullet->dy = 0;
+            bullet->health = 1;
+
+            return bullet;
+        }
+        else{
+            bullet = realloc(bullet, bullet->size + (1*sizeof(Bullet)));
+            bullet->size = _msize(bullet);
+            
+            Bullet *temp_bullet = bullet;
+                        
+            return bullet;
+        }
+
+    //bullet->form.h = 10; bullet->form.w = 30; bullet->form.x = r1->x; bullet->form.y = r1->y; bullet->dx = 2; bullet->dy = 0; bullet->distance = 150;   
+}
+
+Bullet defineBullet(SDL_Rect *r1){
+    Bullet bullet;
+    bullet.form.h = 10;
+    bullet.form.w = 30;
+    bullet.form.x = r1->x;
+    bullet.form.y = r1->y;
+
+    bullet.distance = 100;
+    bullet.dx = 1;
+    bullet.dy = 0;
+    bullet.health = 1;
+
+    return bullet;
+
+}
+
+

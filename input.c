@@ -59,6 +59,10 @@ void doKeyUp(SDL_KeyboardEvent *key){
             case SDL_SCANCODE_RIGHT:
                 app.rigth = 0;
                 break;
+            case SDL_SCANCODE_0:
+                app.fire = 0;
+                break;
+
         }
     }
 }
