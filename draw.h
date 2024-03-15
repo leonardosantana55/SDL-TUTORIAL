@@ -5,5 +5,6 @@ void prepareScene();
 void presentScene();
 void drawRectangle(SDL_Rect *r);
 void drawBullet(SDL_Rect *bullet);
+void drawAllBullets(LinkedList *linkedlist_bullets);
 
 #endif

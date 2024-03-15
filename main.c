@@ -10,9 +10,12 @@ void animateBullet(Bullet *bullet);
 //a bala criada vai precisar ser desenhada. A função que desenha as balas tem que iterar pelo endereço que aponta pra elas e renderizar cada uma
 //se a bala percorrer toda a distancia, ela fica com health 0
 //se a bala está com health zero ela deve ser destruida
+
+//function definitions
 Bullet defineBullet(SDL_Rect *r1);
 Bullet* createBullets(Bullet *bullet, SDL_Rect *r1);
 LinkedList* createLinkedBullets(Bullet *bullet, SDL_Rect *r1);
+void moveBullets(LinkedList *linkedlist_bullets);
 void destroyBullets(Bullet *bullet);
 
     
@@ -31,6 +34,7 @@ int WinMain(int argc, char *argv[]){
         prepareScene();
         doInput();
         drawRectangle(&r1);
+        drawAllBullets(linkedlist_bullets);
         //printf("size before %u\n", bullet->size);
         //printf("%d ,%d ,%d ,%d", app.down, app.up, app.left, app.rigth);
         if (app.down){
@@ -49,10 +53,12 @@ int WinMain(int argc, char *argv[]){
             app.fire = 0;
             linkedbullet = defineBullet(&r1);
             insert_ll(linkedlist_bullets, linkedbullet);
-            print_ll(linkedlist_bullets);
             //bullet = createBullets(bullet, &r1);
             //printf("after %d\n",bullet->size);
         }
+
+        print_ll(linkedlist_bullets);
+        moveBullets(linkedlist_bullets);
         
         //animateBullet(&bullet);
         presentScene();
@@ -123,3 +129,29 @@ Bullet defineBullet(SDL_Rect *r1){
 }
 
 
+void moveBullets(LinkedList *linkedlist_bullets){
+    Node* temp;
+    temp = linkedlist_bullets->head;
+    
+    //int count = 0;
+    while (temp != NULL){
+        if (temp->bullet.distance > 0){
+        temp->bullet.form.x += temp->bullet.dx;
+        temp->bullet.form.y += temp->bullet.dy;
+        temp->bullet.distance--;
+        }
+        
+        temp = temp->next;
+        //count++;
+        //printf("quantidade %d\n",count);
+    }
+    
+    return;
+
+}
+
+
+// Eu ja tenho a ação de alocar memoria, definir e linkar as balas
+//Agora eu preciso animar elas
+//desenhar elas
+//destruir elas

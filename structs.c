@@ -31,7 +31,7 @@ void print_ll(LinkedList* list){
     
     int count = 0;
     while (temp != NULL){
-        printf("%p\n", temp);
+        printf("adress: %p, xpos: %d\n", temp, temp->bullet.form.x);
         temp = temp->next;
         count++;
         printf("quantidade %d\n",count);
