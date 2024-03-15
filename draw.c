@@ -8,7 +8,7 @@ void prepareScene(){
 }
 
 void drawRectangle(SDL_Rect *r){
-    SDL_SetRenderDrawColor(app.renderer, 0, 0, 255, 128);
+    SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 128);
     SDL_RenderFillRect(app.renderer, r);
     SDL_RenderDrawRect(app.renderer, r);
 }
@@ -27,7 +27,7 @@ void drawAllBullets(LinkedList *linkedlist_bullets){
     while (temp != NULL){
         //SDL_Rect *temp_bullet;
         //*temp_bullet = temp->bullet;
-        SDL_SetRenderDrawColor(app.renderer, 0, 0, 255, 128);
+        SDL_SetRenderDrawColor(app.renderer, 255, 255, 255, 128);
         SDL_RenderFillRect(app.renderer, &temp->bullet.form);
         SDL_RenderDrawRect(app.renderer, &temp->bullet.form);
         temp = temp->next;

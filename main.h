@@ -7,6 +7,7 @@
 #include <malloc.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "structs.h"
 #include "defs.h"
 #include "init.h"
