@@ -3,6 +3,6 @@
 
 #define SCREEN_WIDTH    640
 #define SCREEN_HEIGHT   640
-#define PLAYER_SPEED    10
+#define PLAYER_SPEED    13
 
 #endif

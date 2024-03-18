@@ -11,7 +11,8 @@ LinkedList* createLinkedBullets(Bullet *bullet, SDL_Rect *r1);
 void moveBullets(LinkedList *linkedlist_bullets);
 void destroyBullets(Bullet *bullet);
 bool colisionDetection(SDL_Rect *me, SDL_Rect *object, enum Direction direction); // não sei que tipo utilizar para direção. Talvez seja um enum
-    
+int distanceBeforeColision(SDL_Rect *me, SDL_Rect *object, enum Direction direction);
+
 App app;
 int WinMain(int argc, char *argv[]){
     initSDL(); // create window
@@ -33,20 +34,32 @@ int WinMain(int argc, char *argv[]){
             if (!colisionDetection(&r1, &r2, down)){
                 r1.y += PLAYER_SPEED;
             }
+            else{
+                r1.y += distanceBeforeColision(&r1, &r2, down);
+            }
         }
         if (app.up){
             if (!colisionDetection(&r1, &r2, up)){
                 r1.y -= PLAYER_SPEED;
+            }
+            else{
+                r1.y -= distanceBeforeColision(&r1, &r2, up);
             }
         }
         if (app.left){
             if (!colisionDetection(&r1, &r2, left)){
                 r1.x -= PLAYER_SPEED;
             }
+            else{
+                r1.x -= distanceBeforeColision(&r1, &r2, left);
+            }
         }
         if (app.rigth){
             if (!colisionDetection(&r1, &r2, rigth)){
                 r1.x += PLAYER_SPEED;
+            }
+            else{
+                r1.x += distanceBeforeColision(&r1, &r2, rigth);
             }
         }
         if (app.fire){
@@ -178,7 +191,7 @@ bool colisionDetection(SDL_Rect *me, SDL_Rect *object, enum Direction direction)
             me->x + me->w > object->x &&
             me->y + me->h + PLAYER_SPEED < object->y + object->h &&
             me->y + me->h + PLAYER_SPEED > object->y){
-                printf("colision detected down\n");
+                printf("colision detected down. difference: %d\n", (object->y) - (me->y + me->h));
                 return 1;
             }
     }
@@ -204,6 +217,104 @@ bool colisionDetection(SDL_Rect *me, SDL_Rect *object, enum Direction direction)
             me->y + me->h > object->y){
                 printf("colision detected up\n");
                 return 1;
+            }
+
+    }
+    return 0;
+}
+
+int distanceBeforeColision(SDL_Rect *me, SDL_Rect *object, enum Direction direction){
+    //printf("the func received: %d\n", direction);
+    if (direction == rigth){
+        if (me->x < object->x + object->w && // superior esquerdo
+            me->x > object->x &&
+            me->y < object->y + object->h &&
+            me->y > object->y 
+            ||
+            me->x + me->w + PLAYER_SPEED < object->x + object->w && // superior direito
+            me->x + me->w + PLAYER_SPEED > object->x &&
+            me->y + PLAYER_SPEED <= object->y + object->h &&
+            me->y + PLAYER_SPEED >= object->y
+            ||
+            me->x < object->x + object->w && // inferior esquerdo
+            me->x > object->x &&
+            me->y + me->h < object->y + object->h &&
+            me->y + me->h > object->y
+            ||
+            me->x + me->w + PLAYER_SPEED < object->x + object->w && // inferior direito
+            me->x + me->w + PLAYER_SPEED > object->x &&
+            me->y + me->h < object->y + object->h &&
+            me->y + me->h > object->y){
+                return (object->x) - (me->x + me->w);
+            }
+    }
+    if (direction == left){
+        if (me->x - PLAYER_SPEED < object->x + object->w && // superior esquerdo
+            me->x - PLAYER_SPEED > object->x &&
+            me->y < object->y + object->h &&
+            me->y > object->y 
+            ||
+            me->x + me->w < object->x + object->w && // superior direito
+            me->x + me->w > object->x &&
+            me->y < object->y + object->h &&
+            me->y > object->y
+            ||
+            me->x - PLAYER_SPEED < object->x + object->w && // inferior esquerdo
+            me->x - PLAYER_SPEED > object->x &&
+            me->y + me->h - PLAYER_SPEED <= object->y + object->h &&
+            me->y + me->h - PLAYER_SPEED >= object->y
+            ||
+            me->x + me->w < object->x + object->w && // inferior direito
+            me->x + me->w > object->x &&
+            me->y + me->h < object->y + object->h &&
+            me->y + me->h > object->y){
+                return (me->x) - (object->x + object->w);
+            }
+    }
+    if (direction == down){
+        if (me->x < object->x + object->w && // superior esquerdo
+            me->x > object->x &&
+            me->y < object->y + object->h &&
+            me->y > object->y 
+            ||
+            me->x + me->w < object->x + object->w && // superior direito
+            me->x + me->w > object->x &&
+            me->y < object->y + object->h &&
+            me->y > object->y
+            ||
+            me->x + PLAYER_SPEED <= object->x + object->w && // inferior esquerdo
+            me->x + PLAYER_SPEED >= object->x &&
+            me->y + me->h + PLAYER_SPEED < object->y + object->h &&
+            me->y + me->h + PLAYER_SPEED > object->y
+            ||
+            me->x + me->w < object->x + object->w && // inferior direito
+            me->x + me->w > object->x &&
+            me->y + me->h + PLAYER_SPEED < object->y + object->h &&
+            me->y + me->h + PLAYER_SPEED > object->y){
+                return (object->y) - (me->y + me->h);
+            }
+    }
+    if (direction == up){
+        if (me->x < object->x + object->w && // superior esquerdo
+            me->x > object->x &&
+            me->y - PLAYER_SPEED < object->y + object->h &&
+            me->y - PLAYER_SPEED > object->y 
+            ||
+            me->x + me->w - PLAYER_SPEED <= object->x + object->w && // superior direito
+            me->x + me->w - PLAYER_SPEED >= object->x &&
+            me->y - PLAYER_SPEED < object->y + object->h &&
+            me->y - PLAYER_SPEED > object->y
+            ||
+            me->x < object->x + object->w && // inferior esquerdo
+            me->x > object->x &&
+            me->y + me->h < object->y + object->h &&
+            me->y + me->h > object->y
+            ||
+            me->x + me->w < object->x + object->w && // inferior direito
+            me->x + me->w > object->x &&
+            me->y + me->h < object->y + object->h &&
+            me->y + me->h > object->y){
+                return (me->y) - (object->y + object->h);
             }
 
     }
