@@ -131,8 +131,8 @@ bool colisionDetection(SDL_Rect *me, SDL_Rect *object, enum Direction direction)
             ||
             me->x + me->w + PLAYER_SPEED < object->x + object->w && // superior direito
             me->x + me->w + PLAYER_SPEED > object->x &&
-            me->y + PLAYER_SPEED <= object->y + object->h &&
-            me->y + PLAYER_SPEED >= object->y
+            me->y < object->y + object->h &&
+            me->y > object->y
             ||
             me->x < object->x + object->w && // inferior esquerdo
             me->x > object->x &&
@@ -160,8 +160,8 @@ bool colisionDetection(SDL_Rect *me, SDL_Rect *object, enum Direction direction)
             ||
             me->x - PLAYER_SPEED < object->x + object->w && // inferior esquerdo
             me->x - PLAYER_SPEED > object->x &&
-            me->y + me->h - PLAYER_SPEED <= object->y + object->h &&
-            me->y + me->h - PLAYER_SPEED >= object->y
+            me->y + me->h < object->y + object->h &&
+            me->y + me->h > object->y
             ||
             me->x + me->w < object->x + object->w && // inferior direito
             me->x + me->w > object->x &&
@@ -182,8 +182,8 @@ bool colisionDetection(SDL_Rect *me, SDL_Rect *object, enum Direction direction)
             me->y < object->y + object->h &&
             me->y > object->y
             ||
-            me->x + PLAYER_SPEED <= object->x + object->w && // inferior esquerdo
-            me->x + PLAYER_SPEED >= object->x &&
+            me->x < object->x + object->w && // inferior esquerdo
+            me->x > object->x &&
             me->y + me->h + PLAYER_SPEED < object->y + object->h &&
             me->y + me->h + PLAYER_SPEED > object->y
             ||
@@ -201,8 +201,8 @@ bool colisionDetection(SDL_Rect *me, SDL_Rect *object, enum Direction direction)
             me->y - PLAYER_SPEED < object->y + object->h &&
             me->y - PLAYER_SPEED > object->y 
             ||
-            me->x + me->w - PLAYER_SPEED <= object->x + object->w && // superior direito
-            me->x + me->w - PLAYER_SPEED >= object->x &&
+            me->x + me->w < object->x + object->w && // superior direito
+            me->x + me->w > object->x &&
             me->y - PLAYER_SPEED < object->y + object->h &&
             me->y - PLAYER_SPEED > object->y
             ||
@@ -233,8 +233,8 @@ int distanceBeforeColision(SDL_Rect *me, SDL_Rect *object, enum Direction direct
             ||
             me->x + me->w + PLAYER_SPEED < object->x + object->w && // superior direito
             me->x + me->w + PLAYER_SPEED > object->x &&
-            me->y + PLAYER_SPEED <= object->y + object->h &&
-            me->y + PLAYER_SPEED >= object->y
+            me->y < object->y + object->h &&
+            me->y > object->y
             ||
             me->x < object->x + object->w && // inferior esquerdo
             me->x > object->x &&
@@ -261,8 +261,8 @@ int distanceBeforeColision(SDL_Rect *me, SDL_Rect *object, enum Direction direct
             ||
             me->x - PLAYER_SPEED < object->x + object->w && // inferior esquerdo
             me->x - PLAYER_SPEED > object->x &&
-            me->y + me->h - PLAYER_SPEED <= object->y + object->h &&
-            me->y + me->h - PLAYER_SPEED >= object->y
+            me->y + me->h < object->y + object->h &&
+            me->y + me->h > object->y
             ||
             me->x + me->w < object->x + object->w && // inferior direito
             me->x + me->w > object->x &&
@@ -282,8 +282,8 @@ int distanceBeforeColision(SDL_Rect *me, SDL_Rect *object, enum Direction direct
             me->y < object->y + object->h &&
             me->y > object->y
             ||
-            me->x + PLAYER_SPEED <= object->x + object->w && // inferior esquerdo
-            me->x + PLAYER_SPEED >= object->x &&
+            me->x <= object->x + object->w && // inferior esquerdo
+            me->x >= object->x &&
             me->y + me->h + PLAYER_SPEED < object->y + object->h &&
             me->y + me->h + PLAYER_SPEED > object->y
             ||
@@ -300,8 +300,8 @@ int distanceBeforeColision(SDL_Rect *me, SDL_Rect *object, enum Direction direct
             me->y - PLAYER_SPEED < object->y + object->h &&
             me->y - PLAYER_SPEED > object->y 
             ||
-            me->x + me->w - PLAYER_SPEED <= object->x + object->w && // superior direito
-            me->x + me->w - PLAYER_SPEED >= object->x &&
+            me->x + me->w < object->x + object->w && // superior direito
+            me->x + me->w > object->x &&
             me->y - PLAYER_SPEED < object->y + object->h &&
             me->y - PLAYER_SPEED > object->y
             ||
